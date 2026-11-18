@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keitaro Wrapper</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">Keitaro<span>wrapper</span></a>
+  <nav>
+    <a href="/" data-nav="create">Новая кампания</a>
+    <a href="/#list" data-nav="list">Кампании</a>
+  </nav>
+</header>
+
+<main id="app">
+  <!-- Creator -->
+  <section id="view-create" class="view" hidden>
+    <div class="card narrow">
+      <h1>Новая кампания</h1>
+      <p class="muted">Создаёт кампанию с двумя потоками: <b>1)</b> выбранные страны → Google, <b>2)</b> остальные → оффер.
+        Домен, группа и источник проставляются автоматически.</p>
+      <form id="create-form" autocomplete="off">
+        <label>Название
+          <div class="prefixed"><span id="prefix"></span><input name="name" required placeholder="campaign1"></div>
+        </label>
+        <label>Гео
+          <div class="tags" id="geo-tags"><input id="geo-input" placeholder="MX, AU, RO…" list="countries"></div>
+          <datalist id="countries"></datalist>
+          <small class="muted">Введите код или название страны и нажмите Enter / запятую</small>
+        </label>
+        <label>Оффер
+          <div class="ac" id="offer-ac">
+            <input id="offer-input" placeholder="Поиск по офферам: название или ID">
+            <ul class="ac-list" hidden></ul>
+          </div>
+        </label>
+        <button class="btn primary wide" type="submit">Create</button>
+        <div id="create-result"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Campaign list -->
+  <section id="view-list" class="view" hidden>
+    <div class="card">
+      <div class="row between">
+        <h1>Кампании</h1>
+        <div class="row gap">
+          <input id="list-q" placeholder="Поиск по имени или ID">
+          <select id="list-scope">
+            <option value="mine">Мои (с префиксом)</option>
+            <option value="all">Все доступные</option>
+          </select>
+        </div>
+      </div>
+      <table class="table">
+        <thead><tr><th>ID</th><th>Название</th><th>Группа</th><th>Статус</th><th></th></tr></thead>
+        <tbody id="list-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Editor -->
+  <section id="view-edit" class="view" hidden>
+    <div class="card">
+      <div class="row between wrap">
+        <div>
+          <h1 id="ed-name">…</h1>
+          <div class="muted">ID <span id="ed-id"></span> · группа <span id="ed-group"></span></div>
+          <div class="url-row"><code id="ed-url"></code><button class="btn small" id="ed-copy">Копировать</button></div>
+        </div>
+        <div class="row gap">
+          <select id="ed-interval">
+            <option value="today">Сегодня</option>
+            <option value="yesterday">Вчера</option>
+            <option value="7_days_ago">7 дней</option>
+            <option value="1_month_ago">30 дней</option>
+            <option value="all_time" selected>Всё время</option>
+          </select>
+          <button class="btn" id="ed-refresh" title="Обновить">⟳</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <table class="table streams">
+        <thead><tr><th>Поток</th><th class="num">Клики</th><th class="num">Уник.</th><th class="num">Боты</th><th class="num">Конв.</th></tr></thead>
+        <tbody id="ed-streams"></tbody>
+        <tfoot><tr id="ed-total"></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>История изменений</h2>
+      <ul id="ed-events" class="events"></ul>
+    </div>
+  </section>
+</main>
+
+<div id="toast" hidden></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
