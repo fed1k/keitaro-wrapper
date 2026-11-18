@@ -187,7 +187,7 @@ function streamHtml(s) {
           <span class="oname">[${o.offer_id}] ${esc(o.name)}</span>
           <span class="ostat">${o.stats.clicks} кл · ${o.stats.unique} уник · ${o.stats.conversions} конв</span>
           <input class="share" type="number" min="0" max="100" value="${o.share}" aria-label="Доля, %"> %
-          <button class="icon-btn" data-remove="${o.offer_id}" title="Удалить оффер" ${s.offers.length < 2 ? "disabled" : ""}>×</button>
+          <button class="icon-btn" data-remove="${o.offer_id}" title="Удалить оффер">×</button>
         </li>`).join("") || `<li class="muted">Офферов нет</li>`}
       </ul>
       <div class="stream-tools">
@@ -230,6 +230,7 @@ function bindStream(tr, s) {
   tr.querySelectorAll("[data-remove]").forEach((b) => {
     b.onclick = () => {
       const oid = +b.dataset.remove;
+      if (s.offers.length < 2) return toast("Нельзя удалить последний оффер: поток останется без цели", true);
       if (!confirm(`Удалить оффер ${oid} из потока? Доли остальных будут выровнены.`)) return;
       mutate(b, () => api(`/api/campaigns/${EDIT.id}/streams/${s.id}/offers/${oid}`, { method: "DELETE" }), `Оффер ${oid} удалён`);
     };
