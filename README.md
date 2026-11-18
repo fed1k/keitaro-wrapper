@@ -34,7 +34,7 @@
 Нужен Python 3.11+.
 
 ```bash
-git clone <repo-url> && cd <repo>
+git clone https://github.com/fed1k/keitaro-wrapper.git && cd keitaro-wrapper
 python -m venv .venv
 # Windows: .venv\Scripts\activate    |  macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
